@@ -232,7 +232,7 @@ class Master(object):
 
     def log(self, infohash, address=None):
         stdger.debug("%s from %s:%s" % (infohash.encode("hex"), address[0], address[1]))
-        fileger.debug('%s from %s:%s' % (infohash.encode('hex').upper(),address[0],address[1]))
+        #fileger.debug('%s from %s:%s' % (infohash.encode('hex').upper(),address[0],address[1]))
 
 
 if __name__ == "__main__":
