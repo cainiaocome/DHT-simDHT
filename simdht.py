@@ -1,5 +1,6 @@
 #!/usr/bin/env python2.7
 #encoding: utf-8
+import sys
 import socket
 import logging
 from hashlib import sha1
@@ -99,20 +100,19 @@ class DHT(Thread):
     def server(self):
         self.join_DHT()
         while self.isServerWorking:
-
             try:
                 (data, address) = self.ufd.recvfrom(65536)
                 msg = bdecode(data)
-                stdger.debug("receive udp packet")
+                #stdger.debug("receive udp packet")
                 self.on_message(msg, address)
             except Exception:
-                pass
+                t, v, _ = sys.exc_info()
 
     def client(self):
         while self.isClientWorking:
 
             for node in list(set(self.table.nodes))[:self.max_node_qsize]:
-                stdger.debug("send packet")
+                #stdger.debug("send packet")
                 self.send_find_node((node.ip, node.port), node.nid)
 
             #is the list in python thread-safe
@@ -144,7 +144,8 @@ class DHT(Thread):
         try:
             self.ufd.sendto(bencode(msg), address)
         except:
-            pass
+            t, v, _ = sys.exc_info()
+            print t,v
 
     #send udp message
     def send_find_node(self, address, nid=None):
